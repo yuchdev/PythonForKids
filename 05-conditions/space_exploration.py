@@ -49,3 +49,5 @@ else:  # This covers route_choice == "3" or any other input
 
 # Thank the player for playing
 print("\nThank you for playing 'Space Exploration' - A Galactic Adventure!")
+
+
