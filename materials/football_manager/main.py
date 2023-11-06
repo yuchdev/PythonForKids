@@ -1,18 +1,40 @@
 import copy
 import random
 import time
-
-from players_data import football_data, football_clubs
+import json
+from players_data import football_data
+from football_clubs import football_clubs
 
 
 def intro_screen():
     print("Welcome to Python Football Manager!")
-    print("You are the manager of a football team.")
+    print("You are the football_manager of a football team.")
     print("Buy and sell players, manage your budget, and lead your team to victory!")
     print("Good luck!\n")
 
 
-def team_formation():
+def load_game():
+    try:
+        f = open("save_game.json", "r")
+        team = json.loads(f.read())
+        f.close()
+        print(f"Loaded game: {team['name']}")
+        print(f"Team's budget: ${team['budget']}")
+        print(f"Team's formation: {team['formation']}")
+        print(f"Team's players: {team['players']}")
+        return team
+    except FileNotFoundError:
+        print("No save game found. Starting new game...")
+        return None
+
+
+def save_game(team):
+    f = open("save_game.json", "w")
+    f.write(json.dumps(team))
+    f.close()
+
+
+def new_game():
     # Create a dictionary for your team
     team = {
         "name": input("Enter your team's name: "),
@@ -80,6 +102,37 @@ def team_formation():
     else:
         print("Invalid choice. Setting player selection method to automatic.")
         team = automatic_team(team)
+
+    # Ask if player wants to save the game
+    print("Do you want to save the game?")
+    print("1. Yes")
+    print("2. No")
+    choice = input("Enter your choice: ")
+    if choice == "1":
+        save_game(team)
+    elif choice == "2":
+        print("Game not saved.")
+    else:
+        print("Invalid choice. Game not saved.")
+    return team
+
+
+def team_formation():
+
+    # Choose new game or load game
+    print("Choose your game mode:")
+    print("1. New game")
+    print("2. Load game")
+    mode = input("Enter your choice: ")
+    if mode == "1":
+        print(f"Starting new game...")
+        team = new_game()
+    elif mode == "2":
+        print(f"Loading game...")
+        team = load_game()
+    else:
+        print("Invalid choice. Starting new game...")
+        team = new_game()
     return team
 
 
@@ -190,24 +243,51 @@ def automatic_team(team):
     return team
 
 
-def game_loop(groups):
+def group_stage(groups):
     for group, teams in groups.items():
-        for i in range(len(teams)):
-            for j in range(i + 1, len(teams)):
-                team1 = teams[i]
-                team2 = teams[j]
-                print(f"Game {team1['name']} vs {team2['name']} in group {group}")
-                team1_score = random.randint(0, 5)
-                team2_score = random.randint(0, 5)
-                print(f"Game result: {team1_score} : {team2_score}")
-                if team1_score > team2_score:
-                    print(f"Winner: {team1['name']}")
-                elif team1_score < team2_score:
-                    print(f"Winner: {team2['name']}")
-                else:
-                    print("Draw")
-                time.sleep(1)
-                print()
+        print(f"Group {group}: {[team['name'] for team in teams]}")
+        group_results = group_stage_play(group, teams)
+        # Pick teams with 2 highest scores
+
+    print("Group stage is over. Press button to start playoffs...")
+
+
+def group_stage_play(group, teams):
+    print(f"Group stage: group {group}")
+    group_results = {}
+    for left_team_index in range(len(teams)):
+        for right_team_index in range(left_team_index + 1, len(teams)):
+            left_team = teams[left_team_index]
+            right_team = teams[right_team_index]
+            print(f"Group {group} game: {left_team['name']} vs {right_team['name']}")
+            team1_score = random.randint(0, 5)
+            team2_score = random.randint(0, 5)
+            print(f"Game result: {team1_score} : {team2_score}")
+            if team1_score > team2_score:
+                winner = left_team['name']
+                print(f"Winner: {winner}")
+                group_results[winner] = group_results.get(winner, 0) + 3
+            elif team1_score < team2_score:
+                winner = right_team['name']
+                print(f"Winner: {winner}")
+                group_results[winner] = group_results.get(winner, 0) + 3
+            else:
+                print("Draw")
+                draw_team1 = left_team['name']
+                draw_team2 = right_team['name']
+                group_results[draw_team1] = group_results.get(draw_team1, 0) + 1
+                group_results[draw_team2] = group_results.get(draw_team2, 0) + 1
+            time.sleep(1)
+            print()
+
+    # convert dict to list of dicts {"name": "team_name", "score": 5}
+    group_results = [{"name": team_name, "score": score} for team_name, score in group_results.items()]
+
+    # sort by score
+    group_results.sort(key=lambda x: x["score"], reverse=True)
+
+    # return 2 top teams
+    return group_results[0:2]
 
 
 def pick_clubs():
@@ -249,9 +329,7 @@ def main():
     groups = break_into_groups(clubs)
     print(f'Adding {team["name"]} to group D {groups["D"]}')
     groups['D'].append({"name": team["name"], "budget": team["budget"]})
-    for group, teams_list in groups.items():
-        print(f"Group {group}: {[team['name'] for team in teams_list]}")
-    game_loop(groups)
+    group_stage(groups)
 
 
 if __name__ == "__main__":

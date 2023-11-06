@@ -1,0 +1,87 @@
+{
+  "name": "PSG",
+  "budget": 1760000000,
+  "city": "Paris",
+  "country": "France",
+  "stadium": "Parc des Princes",
+  "players": [
+    {
+      "name": "Cristiano Ronaldo",
+      "contract_price": 175000000,
+      "age": 36,
+      "efficiency": 4861111.11,
+      "role": "Striker"
+    },
+    {
+      "name": "Karim Benzema",
+      "contract_price": 110000000,
+      "age": 33,
+      "efficiency": 3333333.33,
+      "role": "Striker"
+    },
+    {
+      "name": "Erling Haaland",
+      "contract_price": 140000000,
+      "age": 21,
+      "efficiency": 6666666.67,
+      "role": "Striker"
+    },
+    {
+      "name": "Harry Kane",
+      "contract_price": 120000000,
+      "age": 28,
+      "efficiency": 4285714.29,
+      "role": "Striker"
+    },
+    {
+      "name": "Gareth Bale",
+      "contract_price": 80000000,
+      "age": 32,
+      "efficiency": 2500000.0,
+      "role": "Striker"
+    },
+    {
+      "name": "Joshua Kimmich",
+      "contract_price": 95000000,
+      "age": 27,
+      "efficiency": 3518518.52,
+      "role": "Midfielder"
+    },
+    {
+      "name": "Kevin De Bruyne",
+      "contract_price": 130000000,
+      "age": 30,
+      "efficiency": 4333333.33,
+      "role": "Midfielder"
+    },
+    {
+      "name": "Luka Modri\u0107",
+      "contract_price": 90000000,
+      "age": 35,
+      "efficiency": 2571428.57,
+      "role": "Midfielder"
+    },
+    {
+      "name": "Virgil van Dijk",
+      "contract_price": 100000000,
+      "age": 30,
+      "efficiency": 3333333.33,
+      "role": "Defender"
+    },
+    {
+      "name": "Virgil van Dijk",
+      "contract_price": 100000000,
+      "age": 30,
+      "efficiency": 3333333.33,
+      "role": "Defender"
+    },
+    {
+      "name": "Manuel Neuer",
+      "contract_price": 100000000,
+      "age": 35,
+      "efficiency": 2857142.86,
+      "role": "Goalkeeper"
+    }
+  ],
+  "formation": "5-3-2-1"
+}

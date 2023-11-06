@@ -928,7 +928,56 @@ Assessment is based on participation, engagement, creativity in creating drawing
 
 This session introduces kids to the world of graphics programming, allowing them to use a simple graphics library to create drawings and scenes. Graphics programming can be a fun and creative way to apply programming concepts and create visual content.
 
-## Session 16: Final Project - Showcase Your Skills with Creative Python Projects
+## Session 16: Microbit and MicroPython - The World of Microcontrollers
+
+**Objective:**
+
+In this session, kids will be introduced to the world of microcontrollers and microPython. They will learn about microcontrollers, how they work, and how to program them using MicroPython. They will also explore the Microbit microcontroller and create simple programs.
+
+#### Activity 1: What Are Microcontrollers?
+
+* Begin by explaining that microcontrollers are small computers that can be used to control other devices.
+* Discuss how microcontrollers are used in everyday devices like smartphones, smartwatches, and home appliances.
+* Use examples like a smartwatch that can track steps and display notifications.
+
+#### Activity 2: Introduction to MicroPython
+
+* Introduce kids to MicroPython, a version of the Python programming language designed for microcontrollers.
+* Explain that MicroPython is a subset of Python with a smaller memory footprint and fewer features.
+* Discuss how MicroPython can be used to program microcontrollers like the Microbit.
+
+#### Activity 3: Exploring the Microbit
+
+* Show the Microbit microcontroller and discuss its features.
+* Explain that the Microbit has an LED display, buttons, sensors, and a radio for wireless communication.
+* Discuss how the Microbit can be used to create simple programs.
+
+#### Activity 4: Creating Simple Programs
+
+* Encourage kids to create simple programs for the Microbit.
+* For example, they can create a program that displays a message on the LED display when a button is pressed.
+* Demonstrate how to use the Microbit simulator to test programs.
+
+#### Activity 5: The "Microbit Challenge"
+
+* Create a challenge where kids use the Microbit to solve a problem or create a simple game
+* Assist with the Microbit programming and testing process.
+
+#### Activity 6: Discussion and Reflection
+
+* Gather the kids for a discussion on microcontrollers and MicroPython.
+* Ask them to share their experiences in using the Microbit and MicroPython.
+* Discuss the potential applications of microcontrollers in everyday devices.
+
+**Assessment:**
+
+Assessment is based on participation, engagement, and the successful creation of simple programs for the Microbit.
+
+**Note:**
+
+This session introduces kids to the world of microcontrollers and MicroPython. They will learn about microcontrollers, how they work, and how to program them using MicroPython. They will also explore the Microbit microcontroller and create simple programs.
+
+## Session 17: Final Project - Showcase Your Skills with Creative Python Projects
 
 **Objective:**
 
