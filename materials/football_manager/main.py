@@ -4,6 +4,7 @@ import time
 import json
 from players_data import football_data
 from football_clubs import football_clubs
+from game_events import football_events
 
 
 def intro_screen():
@@ -243,40 +244,31 @@ def automatic_team(team):
     return team
 
 
-def group_stage(groups):
+def group_stage(own_team, groups):
     for group, teams in groups.items():
+        if group != "D":
+            print(f"Skip for debugging purposes: {group}")
+            continue
         print(f"Group {group}: {[team['name'] for team in teams]}")
-        group_results = group_stage_play(group, teams)
+        group_results = group_stage_play(group, own_team, teams)
         # Pick teams with 2 highest scores
 
     print("Group stage is over. Press button to start playoffs...")
 
 
-def group_stage_play(group, teams):
+def group_stage_play(group, own_team, teams):
     print(f"Group stage: group {group}")
     group_results = {}
     for left_team_index in range(len(teams)):
         for right_team_index in range(left_team_index + 1, len(teams)):
             left_team = teams[left_team_index]
             right_team = teams[right_team_index]
-            print(f"Group {group} game: {left_team['name']} vs {right_team['name']}")
-            team1_score = random.randint(0, 5)
-            team2_score = random.randint(0, 5)
-            print(f"Game result: {team1_score} : {team2_score}")
-            if team1_score > team2_score:
-                winner = left_team['name']
-                print(f"Winner: {winner}")
-                group_results[winner] = group_results.get(winner, 0) + 3
-            elif team1_score < team2_score:
-                winner = right_team['name']
-                print(f"Winner: {winner}")
-                group_results[winner] = group_results.get(winner, 0) + 3
+            if left_team == right_team:
+                continue
+            if left_team['name'] == own_team or right_team['name'] == own_team:
+                group_results = our_game(group, group_results, left_team, right_team)
             else:
-                print("Draw")
-                draw_team1 = left_team['name']
-                draw_team2 = right_team['name']
-                group_results[draw_team1] = group_results.get(draw_team1, 0) + 1
-                group_results[draw_team2] = group_results.get(draw_team2, 0) + 1
+                group_results = group_stage_game(group, group_results, left_team, right_team)
             time.sleep(1)
             print()
 
@@ -288,6 +280,76 @@ def group_stage_play(group, teams):
 
     # return 2 top teams
     return group_results[0:2]
+
+
+def group_stage_game(group, group_results, left_team, right_team):
+    print(f"Group {group} game: {left_team['name']} vs {right_team['name']}")
+    team1_score = random.randint(0, 5)
+    team2_score = random.randint(0, 5)
+    print(f"Game result: {team1_score} : {team2_score}")
+    if team1_score > team2_score:
+        winner = left_team['name']
+        print(f"Winner: {winner}")
+        group_results[winner] = group_results.get(winner, 0) + 3
+    elif team1_score < team2_score:
+        winner = right_team['name']
+        print(f"Winner: {winner}")
+        group_results[winner] = group_results.get(winner, 0) + 3
+    else:
+        print("Draw")
+        draw_team1 = left_team['name']
+        draw_team2 = right_team['name']
+        group_results[draw_team1] = group_results.get(draw_team1, 0) + 1
+        group_results[draw_team2] = group_results.get(draw_team2, 0) + 1
+    return group_results
+
+
+def our_game(group, group_results, left_team, right_team):
+    """
+    Pick up several random events from the 'football_events', affecting score, effectiveness or time
+    Print events with time delay between them
+    Goal probability depends of effectiveness
+    """
+    print(f"Group {group} game: {left_team['name']} vs {right_team['name']}")
+    team1_score = 0
+    team2_score = 0
+    effectiveness = 0.7
+    random_times = [random.randint(1, 90) for _ in range(20)]
+    random_times.sort()
+    time.sleep(1)
+    print(f"Game result: {team1_score} : {team2_score}")
+    print("Game events:")
+    for i in random_times:
+        print(f"Time: {i}")
+        event = random.choice(list(football_events.keys()))
+        time.sleep(1)
+        print(f"{event}")
+        score = football_events[event]["score"]
+        if score > 0:
+            team1_score += score
+        elif score < 0:
+            team2_score += score
+        effectiveness += football_events[event]["effectiveness"]
+        time_effect = football_events[event]["time"]
+
+        if time_effect != 0:
+            print(f"Time effect: {time_effect}")
+        print()
+    if team1_score > team2_score:
+        winner = left_team['name']
+        print(f"Winner: {winner}")
+        group_results[winner] = group_results.get(winner, 0) + 3
+    elif team1_score < team2_score:
+        winner = right_team['name']
+        print(f"Winner: {winner}")
+        group_results[winner] = group_results.get(winner, 0) + 3
+    else:
+        print("Draw")
+        draw_team1 = left_team['name']
+        draw_team2 = right_team['name']
+        group_results[draw_team1] = group_results.get(draw_team1, 0) + 1
+        group_results[draw_team2] = group_results.get(draw_team2, 0) + 1
+    return group_results
 
 
 def pick_clubs():
@@ -316,7 +378,7 @@ def break_into_groups(teams):
     groups["A"].extend(teams[0:4])
     groups["B"].extend(teams[4:8])
     groups["C"].extend(teams[8:12])
-    groups["D"].extend(teams[12:16])
+    groups["D"].extend(teams[12:15])
     return groups
 
 
@@ -328,8 +390,9 @@ def main():
     clubs = pick_clubs()
     groups = break_into_groups(clubs)
     print(f'Adding {team["name"]} to group D {groups["D"]}')
+    print(f"Appending {team['name']} to group D")
     groups['D'].append({"name": team["name"], "budget": team["budget"]})
-    group_stage(groups)
+    group_stage(team["name"], groups)
 
 
 if __name__ == "__main__":
