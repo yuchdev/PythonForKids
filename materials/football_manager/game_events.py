@@ -17,7 +17,6 @@ football_events = {
     "Controversial Decision": {"score": 0, "effectiveness": -0.1, "time": 0},
     "Tackle": {"score": 0, "effectiveness": 0.1, "time": 0},
     "Own Goal": {"score": -1, "effectiveness": -1.0, "time": 0},
-    "Offside": {"score": 0, "effectiveness": -0.1, "time": 0},
     "Crossbar Hit": {"score": 0, "effectiveness": 0.1, "time": 0},
     "Post Hit": {"score": 0, "effectiveness": 0.1, "time": 0},
     "Penalty Missed": {"score": 0, "effectiveness": 0.1, "time": 0},
