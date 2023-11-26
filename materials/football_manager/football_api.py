@@ -4,13 +4,12 @@ import json
 import os.path
 import sys
 import argparse
+from materials.api_client.api_key import API_KEY
 
 try:
     import xlwings as xw
-except Exception:
+except ImportError:
     print("Unable to import xlwings")
-
-API_KEY = "41b899db8a2f3aaef64f44f30d7ac6b2"
 
 headers = {
     'x-rapidapi-host': "v3.football.api-sports.io",
