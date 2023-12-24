@@ -35,6 +35,7 @@ class WorldLeagues:
             print(f"Using leagues data from file: {self.leagues_file}")
             with open(self.leagues_file, "r") as leagues_json_f:
                 leagues_data = json.load(leagues_json_f)
+
             self._simplify(leagues_data)
 
             for league_data in leagues_data["response"]:
